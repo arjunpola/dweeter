@@ -3,19 +3,90 @@
 <head>
     <title>Dweeter App</title>
 
-    /* Jquery Library */
+     <!-- Jquery Library -->
     <script src="./js/jquery.js"></script>
     
-    /* Adding dweet.io js library */
+     <!-- Adding dweet.io js library -->
     <script src="http://dweet.io/client/dweet.io.min.js"></script>
 
-    /* Twitter Bootstrap Links*/
+    <!-- Twitter Bootstrap Links -->
     <link href="./css/bootstrap.css" rel="stylesheet">
     <link href="./css/bootstrap-flat.css" rel="stylesheet">
     <link href="./css/custom.css" rel="stylesheet">
     <script src="./js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+
+
+// Send a dweet with a name you define
+$(document).ready(function(){
+$('#sendDweet').click(function(){
+
+    $text = $('#dweetBox').val();
+     
+        dweetio.dweet_for("Prerak", {dweet:$('#dweetBox').val()}, function(err, dweet){
+
+        console.log(dweet.thing); // "Prerak"
+        console.log(dweet.content); // The content of the dweet
+        console.log(dweet.created); // The create date of the dweet
+
+        }); //sending dweet code ends here
+
+// Get latest dweet
+    dweetio.get_latest_dweet_for("Prerak", function(err, dweet){
+
+    var dweet = dweet[0]; // Dweet is always an array of 1
+
+    $latestDweet = dweet.content['dweet'];
+    
+    $('#latestDweet').append($latestDweet);
+
+    //console.log(dweet.thing); // The generated name
+    //console.log(dweet.content); // The content of the dweet
+    //console.log(dweet.created); // The create date of the dweet
+
+});
+
+
+    }); //Click listener on #sendDweet ends here
+
+
+
+
+}); //Document.ready ends here
+
+
+
+// Get all dweets (up to 500)
+// dweetio.get_all_dweets_for("Prerak", function(err, dweets){
+
+//     // Dweets is an array of dweets
+//     for(theDweet in dweets)
+//     {
+//         var dweet = dweets[theDweet];
+
+//         console.log(dweet.thing); // The generated name
+//         console.log(dweet.content); // The content of the dweet
+//         console.log(dweet.created); // The create date of the dweet
+//     }
+
+// });
+
+</script>
+
+
 </head>
 <body>
 
+<div class="container">
+    <input type="text" id="dweetBox" name="dweetBox" placeholder="Send your dweet"/>
+    <button type="button" id="sendDweet" name="sendDweet" value="Click">Click</button>
+    <div class="timeline">
+        <ul>
+            <li id="latestDweet">Latest Dweet : </li>
+            <!-- <li class="allDweet"></li> -->
+        </ul>
+    </div>
+</div>
 </body>
 </html>
